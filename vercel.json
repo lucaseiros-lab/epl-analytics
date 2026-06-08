@@ -16,5 +16,13 @@
       "dest": "/",
       "continue": true
     }
-  ]
+  ],
+  "experimentalServices": {
+    "epl-analytics": {
+      "type": "web",
+      "routePrefix": "/",
+      "framework": "nextjs",
+      "buildCommand": "npm run build"
+    }
+  }
 }

@@ -1,19 +1,20 @@
-'use client'
-
 import type { Metadata } from 'next'
-import { useState } from 'react'
 import './globals.css'
+
+export const metadata: Metadata = {
+  title: 'EPL Analytics',
+  description: 'Financial Dashboard',
+}
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const [isDarkMode, setIsDarkMode] = useState(true)
 
   return (
     <html lang="es">
-      <body className={isDarkMode ? '' : 'light-mode'}>
+      <body>
         {/* Sidebar */}
         <aside className="sidebar">
           <div className="mb-12">
@@ -62,13 +63,6 @@ export default function RootLayout({
           </nav>
 
           <div className="absolute bottom-6 left-4 right-4 space-y-4 border-t border-slate-800 pt-4">
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 hover:text-slate-50 text-sm"
-            >
-              <span>{isDarkMode ? '🌙 Oscuro' : '☀️ Claro'}</span>
-              <span className="text-xs">Toggle</span>
-            </button>
             <div className="text-xs text-slate-500 text-center">
               v1.0 • EPL Consultores
             </div>
