@@ -55,11 +55,6 @@ export default function RootLayout({
               <span className="text-lg">📋</span>
               <span className="font-medium text-sm">Datos Crudos</span>
             </a>
-            <hr className="border-slate-800 my-3" />
-            <a href="/upload" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 hover:text-slate-50 group">
-              <span className="text-lg">📁</span>
-              <span className="font-medium text-sm">Cargar Datos</span>
-            </a>
           </nav>
 
           <div className="absolute bottom-6 left-4 right-4 space-y-4 border-t border-slate-800 pt-4">
