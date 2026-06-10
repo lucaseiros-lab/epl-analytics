@@ -1,13 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
+  output: 'standalone',
+  compress: true,
+  poweredByHeader: false,
   onDemandEntries: {
     maxInactiveAge: 60 * 1000,
     pagesBufferLength: 5,
   },
-  experimental: {
-    optimizePackageImports: ['@radix-ui/react-*'],
+  webpack: (config, { isServer }) => {
+    return config;
   },
 }
 
