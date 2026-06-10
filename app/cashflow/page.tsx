@@ -22,9 +22,6 @@ export default function CashFlowPage() {
   const ratioImpuestos = (totales.impuestos / totales.facturacion) * 100
   const ratioEgresos = (totales.egresos / totales.facturacion) * 100
 
-  const realData = proyecciones.slice(0, 5)
-  const proyectData = proyecciones.slice(5)
-
   return (
     <div className="space-y-8">
       <div>
@@ -32,7 +29,6 @@ export default function CashFlowPage() {
         <p className="text-slate-400 mt-2">Proyección Anual | Real (Ene-May) + Proyectado (Jun-Dic)</p>
       </div>
 
-      {/* KPIs Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="card-stat-green">
           <p className="stat-label">FLUJO ANUAL NETO</p>
@@ -51,35 +47,33 @@ export default function CashFlowPage() {
         </div>
       </div>
 
-      {/* Desglose de costos */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="card-premium p-4">
           <p className="stat-label">RETENCIONES</p>
           <p className="text-2xl font-bold text-red-400 mt-2">{fmt(totales.retenciones)}</p>
-          <p className="text-xs text-slate-400 mt-1">{fmtPercent(ratioRetenciones)}% de facturacion</p>
+          <p className="text-xs text-slate-400 mt-1">{fmtPercent(ratioRetenciones)}%</p>
         </div>
         <div className="card-premium p-4">
           <p className="stat-label">IMPUESTOS</p>
           <p className="text-2xl font-bold text-orange-400 mt-2">{fmt(totales.impuestos)}</p>
-          <p className="text-xs text-slate-400 mt-1">{fmtPercent(ratioImpuestos)}% de facturacion</p>
+          <p className="text-xs text-slate-400 mt-1">{fmtPercent(ratioImpuestos)}%</p>
         </div>
         <div className="card-premium p-4">
           <p className="stat-label">GASTOS BANCARIOS</p>
           <p className="text-2xl font-bold text-purple-400 mt-2">{fmt(totales.gastos)}</p>
-          <p className="text-xs text-slate-400 mt-1">Comisiones mensuales</p>
+          <p className="text-xs text-slate-400 mt-1">Comisiones</p>
         </div>
         <div className="card-premium p-4">
           <p className="stat-label">COSTOS OPERATIVOS</p>
           <p className="text-2xl font-bold text-pink-400 mt-2">{fmt(totales.egresos)}</p>
-          <p className="text-xs text-slate-400 mt-1">{fmtPercent(ratioEgresos)}% de facturacion</p>
+          <p className="text-xs text-slate-400 mt-1">{fmtPercent(ratioEgresos)}%</p>
         </div>
       </div>
 
-      {/* TABLA COMPLETA DETALLADA */}
       <div className="card-premium overflow-hidden">
         <div className="p-6 border-b border-slate-800">
-          <h2 className="text-lg font-bold text-slate-50">FLUJO DE CAJA MENSUAL DETALLADO (12 MESES)</h2>
-          <p className="text-xs text-slate-400 mt-1">Desglose completo: Facturacion - Retenciones - Impuestos - Gastos - Egresos = Flujo Neto</p>
+          <h2 className="text-lg font-bold text-slate-50">FLUJO DE CAJA MENSUAL DETALLADO</h2>
+          <p className="text-xs text-slate-400 mt-1">Desglose: Facturacion - Retenciones - Impuestos - Gastos - Egresos</p>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
@@ -87,13 +81,13 @@ export default function CashFlowPage() {
               <tr className="bg-slate-800">
                 <th className="px-2 py-2 text-left font-bold">Mes</th>
                 <th className="px-2 py-2 text-right">Facturacion</th>
-                <th className="px-2 py-2 text-right">Retenciones (-8%)</th>
-                <th className="px-2 py-2 text-right">Impuestos (-2%)</th>
+                <th className="px-2 py-2 text-right">Retenciones</th>
+                <th className="px-2 py-2 text-right">Impuestos</th>
                 <th className="px-2 py-2 text-right">Gastos Banc.</th>
                 <th className="px-2 py-2 text-right text-green-400">Ingresos Netos</th>
-                <th className="px-2 py-2 text-right">Costos Operacionales</th>
+                <th className="px-2 py-2 text-right">Costos</th>
                 <th className="px-2 py-2 text-right text-blue-400">Flujo Neto</th>
-                <th className="px-2 py-2 text-right text-yellow-400">Saldo Acumulado</th>
+                <th className="px-2 py-2 text-right text-yellow-400">Saldo</th>
               </tr>
             </thead>
             <tbody>
@@ -126,7 +120,6 @@ export default function CashFlowPage() {
         </div>
       </div>
 
-      {/* SALDO DISPONIBLE DESTACADO */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="card-stat-yellow p-8">
           <p className="stat-label">SALDO INICIAL (31/05/2026)</p>
@@ -136,21 +129,19 @@ export default function CashFlowPage() {
         <div className="card-stat-green p-8">
           <p className="stat-label">SALDO PROYECTADO (31/12/2026)</p>
           <p className="text-5xl font-bold text-green-400 mt-4">{fmt(proyecciones[11].saldoAcumulado)}</p>
-          <p className="text-sm text-slate-300 mt-4">Cierre de año - Incluye flujos positivos</p>
+          <p className="text-sm text-slate-300 mt-4">Cierre de año - Flujos positivos</p>
         </div>
       </div>
 
-      {/* NOTAS */}
       <div className="card-premium p-6 border-l-4 border-blue-500">
         <h3 className="text-sm font-bold text-blue-400 mb-3">NOTAS IMPORTANTES</h3>
         <ul className="text-xs text-slate-300 space-y-2">
-          <li>* Datos REALES Enero-Mayo 2026 de extractos bancarios</li>
-          <li>* Retenciones: 8% sobre facturación (dato real)</li>
-          <li>* Impuestos: 2% sobre facturación (dato real)</li>
-          <li>* Gastos Bancarios: $487-500K mensuales (dato real)</li>
-          <li>* Junio-Diciembre: Proyecciones basadas en tendencia y growth assumptions</li>
-          <li>* Costos operacionales incluyen todos los egresos mensuales</li>
-          <li>* Esta proyección es SENSIBLE a cambios en cobranzas y volatilidad de ventas</li>
+          <li>* Datos REALES Enero-Mayo 2026</li>
+          <li>* Retenciones: 8% sobre facturación</li>
+          <li>* Impuestos: 2% sobre facturación</li>
+          <li>* Gastos Bancarios: 487-500K mensuales</li>
+          <li>* Junio-Diciembre: Proyecciones basadas en tendencia</li>
+          <li>* Sensible a cambios en cobranzas y volatilidad</li>
         </ul>
       </div>
     </div>

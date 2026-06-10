@@ -10,13 +10,11 @@ export function Dashboard() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div>
         <h1 className="text-4xl font-bold text-slate-50">Dashboard</h1>
-        <p className="text-slate-400 mt-2">Sunday, 7 June 2026</p>
+        <p className="text-slate-400 mt-2">Análisis Financiero EPL Consultores</p>
       </div>
 
-      {/* KPIs Grid - Estilo Study Dashboard */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <div className="card-stat-yellow">
           <p className="stat-label">Facturación 2026</p>
@@ -49,7 +47,6 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* Secondary KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="card-premium p-6">
           <div className="flex items-start justify-between mb-4">
@@ -59,7 +56,7 @@ export function Dashboard() {
             </div>
             <span className="text-2xl">📊</span>
           </div>
-          <p className="text-xs text-slate-400">OSPERYH concentra 57.4%</p>
+          <p className="text-xs text-slate-400">OSPERYH: 57.4%</p>
         </div>
 
         <div className="card-premium p-6">
@@ -85,7 +82,6 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* Top Clientes */}
       <div className="card-premium p-8">
         <h2 className="text-xl font-bold text-slate-50 mb-6">Top 5 Clientes por CxC</h2>
         <div className="space-y-3">
@@ -93,7 +89,7 @@ export function Dashboard() {
             <div key={i} className="flex justify-between items-center p-3 bg-slate-800/50 rounded">
               <div>
                 <p className="font-semibold text-slate-200">{cliente.nombre}</p>
-                <p className="text-xs text-slate-400">${(cliente.porcentaje).toFixed(1)}% del total</p>
+                <p className="text-xs text-slate-400">${(cliente.porcentaje).toFixed(1)}%</p>
               </div>
               <p className="font-bold text-green-400">${(cliente.cxc / 1_000_000).toFixed(1)}M</p>
             </div>

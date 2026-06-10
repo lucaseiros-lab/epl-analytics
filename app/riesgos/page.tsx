@@ -19,10 +19,9 @@ export default function RiesgosPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-4xl font-bold text-slate-50">Análisis de Riesgos</h1>
-        <p className="text-slate-400 mt-2">Identificación y mitigación de factores críticos | IA-Enhanced Assessment</p>
+        <p className="text-slate-400 mt-2">Identificación y mitigación de factores críticos</p>
       </div>
 
-      {/* MATRIZ DE RIESGOS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="card-stat-red p-6">
           <p className="stat-label">Riesgos Críticos</p>
@@ -36,7 +35,6 @@ export default function RiesgosPage() {
         </div>
       </div>
 
-      {/* DETALLE RIESGOS */}
       <div className="space-y-4">
         <h2 className="text-2xl font-bold text-slate-50 mb-4">Riesgos Identificados</h2>
         {riesgos.map((riesgo, idx) => (
@@ -63,10 +61,10 @@ export default function RiesgosPage() {
               <div className="mt-4 pt-4 border-t border-slate-700">
                 <p className="text-xs text-slate-400 mb-2">Plan de Mitigación:</p>
                 <ul className="text-xs text-slate-300 space-y-1">
-                  <li>• Contacto inmediato con OSPERYH: negociar contrato 2+ años</li>
-                  <li>• Prospecting agresivo: 5 clientes nuevos $10M+ cada uno</li>
-                  <li>• Timeline: 90-120 días (máximo riesgo = 30 días)</li>
-                  <li>• KPI: Reducir dependencia a &lt;40% en 6 meses</li>
+                  <li>• Contacto inmediato con OSPERYH</li>
+                  <li>• Prospecting: 5 clientes nuevos</li>
+                  <li>• Timeline: 90-120 días</li>
+                  <li>• Target: Reducir dependencia a menos de 40%</li>
                 </ul>
               </div>
             )}
@@ -75,10 +73,10 @@ export default function RiesgosPage() {
               <div className="mt-4 pt-4 border-t border-slate-700">
                 <p className="text-xs text-slate-400 mb-2">Plan de Mitigación:</p>
                 <ul className="text-xs text-slate-300 space-y-1">
-                  <li>• Contracts de largo plazo: compromisos 12+ meses</li>
-                  <li>• Ingresos recurrentes: buscar modelo SaaS/suscripción</li>
-                  <li>• Análisis de causa: ¿OSPERYH fluctúa más? ¿Estacionalidad?</li>
-                  <li>• Target: Reducir volatilidad a &lt;30% mediante mix diverso</li>
+                  <li>• Contratos largo plazo</li>
+                  <li>• Ingresos recurrentes</li>
+                  <li>• Análisis de estacionalidad</li>
+                  <li>• Target: Reducir volatilidad a 30%</li>
                 </ul>
               </div>
             )}
@@ -87,10 +85,10 @@ export default function RiesgosPage() {
               <div className="mt-4 pt-4 border-t border-slate-700">
                 <p className="text-xs text-slate-400 mb-2">Plan de Mitigación (URGENTE):</p>
                 <ul className="text-xs text-slate-300 space-y-1">
-                  <li>• Concurso preventivo: INMEDIATAMENTE (30 días máximo)</li>
-                  <li>• Cobro OSPERYH: $50M en 15 días = Caja $81M</li>
-                  <li>• Línea de crédito: negociar con bancos durante concurso</li>
-                  <li>• Timeline: Semana 1 propuesta + Semana 2-3 aprobación</li>
+                  <li>• Concurso preventivo: INMEDIATAMENTE</li>
+                  <li>• Cobro OSPERYH: 50M en 15 días</li>
+                  <li>• Línea de crédito con bancos</li>
+                  <li>• Timeline: Semana 1-3</li>
                 </ul>
               </div>
             )}
@@ -98,13 +96,11 @@ export default function RiesgosPage() {
         ))}
       </div>
 
-      {/* MATRIZ RIESGO-IMPACTO */}
       <div className="card-premium p-8">
         <h2 className="text-2xl font-bold text-slate-50 mb-6">Matriz Riesgo-Impacto</h2>
 
         <div className="relative" style={{ height: '400px' }}>
           <div className="absolute inset-0 border-2 border-slate-700 rounded">
-            {/* Grid */}
             <div className="absolute inset-0 flex flex-col">
               <div className="flex-1 border-b border-slate-700"></div>
               <div className="flex-1 border-b border-slate-700"></div>
@@ -116,7 +112,6 @@ export default function RiesgosPage() {
               <div className="flex-1"></div>
             </div>
 
-            {/* Labels */}
             <div className="absolute -top-6 left-0 right-0 flex justify-around text-xs font-bold text-slate-400">
               <span>Bajo</span>
               <span>Medio</span>
@@ -128,10 +123,9 @@ export default function RiesgosPage() {
               <span>Alto</span>
             </div>
 
-            {/* Ploteo de Riesgos */}
             <div className="absolute" style={{ left: '75%', top: '5%' }}>
               <div className="bg-red-500 rounded-full w-12 h-12 flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xs text-center">Concentración<br/>Cliente</span>
+                <span className="text-white font-bold text-xs text-center">Concentración</span>
               </div>
             </div>
 
@@ -143,11 +137,10 @@ export default function RiesgosPage() {
 
             <div className="absolute" style={{ left: '80%', top: '80%' }}>
               <div className="bg-red-600 rounded-full w-14 h-14 flex items-center justify-center shadow-lg border-2 border-red-400">
-                <span className="text-white font-bold text-xs text-center">Cobertura<br/>Caja</span>
+                <span className="text-white font-bold text-xs text-center">Caja</span>
               </div>
             </div>
 
-            {/* Zonas de color */}
             <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-green-500/5"></div>
             <div className="absolute top-0 left-1/3 w-1/3 h-1/3 bg-yellow-500/5"></div>
             <div className="absolute top-0 left-2/3 w-1/3 h-1/3 bg-orange-500/5"></div>
@@ -163,20 +156,17 @@ export default function RiesgosPage() {
         </div>
 
         <p className="text-xs text-slate-400 mt-6 text-center">
-          Matriz 3x3: Eje X = Probabilidad | Eje Y = Impacto | Tamaño burbuja = Urgencia
+          Matriz de Riesgos: Eje X = Probabilidad | Eje Y = Impacto
         </p>
       </div>
 
-      {/* RECOMENDACIONES CON IA */}
       <div className="card-premium p-8 border-l-4 border-blue-500">
         <h2 className="text-2xl font-bold text-slate-50 mb-6">Recomendaciones Estratégicas</h2>
 
         <div className="bg-slate-900/50 p-4 rounded mb-6 border-l-2 border-blue-400">
-          <p className="text-sm text-blue-300 font-bold mb-2">DIAGNÓSTICO GENERAL:</p>
+          <p className="text-sm text-blue-300 font-bold mb-2">DIAGNÓSTICO:</p>
           <p className="text-sm text-slate-300">
-            Empresa viable operativamente (+$222.5M flujo anual, margen 23.2%) pero con insolvencia técnica
-            por deuda excesiva. Viabilidad depende 100% de: (1) Concurso preventivo exitoso, (2) Cobro
-            OSPERYH inmediato, (3) Diversificación de clientes en 6 meses.
+            Empresa viable operativamente pero con insolvencia técnica. Viabilidad depende de: Concurso preventivo, Cobro OSPERYH, Diversificación de clientes.
           </p>
         </div>
 
@@ -200,22 +190,21 @@ export default function RiesgosPage() {
         </div>
       </div>
 
-      {/* VIABILIDAD */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="card-stat-green p-6">
           <p className="stat-label">Viabilidad General</p>
           <p className="stat-value text-green-400 mt-3">CON RIESGOS</p>
-          <p className="text-xs text-slate-400 mt-2">Saldo proyectado: {fmt(recomendaciones.saldoProyectado)}</p>
+          <p className="text-xs text-slate-400 mt-2">Saldo: {fmt(recomendaciones.saldoProyectado)}</p>
         </div>
         <div className="card-stat-blue p-6">
           <p className="stat-label">Probabilidad Éxito</p>
           <p className="stat-value text-blue-400 mt-3">70-75%</p>
-          <p className="text-xs text-slate-400 mt-2">24 meses post-reestructura</p>
+          <p className="text-xs text-slate-400 mt-2">24 meses post</p>
         </div>
         <div className="card-stat-yellow p-6">
           <p className="stat-label">Acción Urgente</p>
           <p className="stat-value text-yellow-400 mt-3">CONCURSO</p>
-          <p className="text-xs text-slate-400 mt-2">Semana 1: Presentación</p>
+          <p className="text-xs text-slate-400 mt-2">Semana 1</p>
         </div>
       </div>
     </div>

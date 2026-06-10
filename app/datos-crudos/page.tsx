@@ -6,7 +6,6 @@ import { datosVentas, clientesTop5 } from '@/lib/financialAnalysis'
 export default function DatosCrudosPage() {
   const [selectedTab, setSelectedTab] = useState<'ventas' | 'clientes'>('ventas')
 
-  // Datos de ventas por mes para muestra
   const ventasMuestra = [
     { mes: 'Enero', monto: datosVentas.enero, registros: 28 },
     { mes: 'Febrero', monto: datosVentas.febrero, registros: 22 },
@@ -24,7 +23,6 @@ export default function DatosCrudosPage() {
         <p className="text-slate-400">Información transaccional consolidada • Base: Enero-Mayo 2026</p>
       </div>
 
-      {/* Tabs */}
       <div className="flex gap-2 border-b border-slate-700">
         <button
           onClick={() => setSelectedTab('ventas')}
@@ -48,7 +46,6 @@ export default function DatosCrudosPage() {
         </button>
       </div>
 
-      {/* Contenido por Tab */}
       <div className="card-premium overflow-hidden">
         <div className="overflow-x-auto">
           {selectedTab === 'ventas' && (
@@ -105,15 +102,13 @@ export default function DatosCrudosPage() {
         </div>
       </div>
 
-      {/* Nota sobre datos completos */}
       <div className="card-premium p-6 bg-slate-800/50">
         <div className="flex items-start gap-3">
           <span className="text-2xl">📥</span>
           <div>
             <p className="font-semibold text-slate-50 mb-1">Datos Completos Disponibles</p>
             <p className="text-sm text-slate-400">
-              Los datos crudos completos (137 registros de ventas, 81 de cobranzas, 282 de compras) están consolidados en el análisis.
-              Para análisis granular o exportación, usar el módulo de Cargar Datos.
+              Los datos crudos completos están consolidados en el análisis. Para exportación, usar el módulo de Cargar Datos.
             </p>
           </div>
         </div>
