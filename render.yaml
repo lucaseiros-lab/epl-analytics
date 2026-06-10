@@ -3,11 +3,13 @@ services:
     name: epl-consultores
     runtime: node
     plan: free
-    buildCommand: npm install && npm run build
+    branch: main
+    buildCommand: npm ci && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: NODE_VERSION
-        value: "18"
+        value: "18.17.0"
     autoDeploy: true
+    healthCheckPath: /dashboard
