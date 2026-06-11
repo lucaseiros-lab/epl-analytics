@@ -218,6 +218,7 @@ export const datosRealAguinaldo = 10_000_000; // Medio aguinaldo
 // FUNCIÓN: PROYECCIÓN ANUAL DE FLUJO DE CAJA
 export interface ProyeccionFlujo {
   mes: string;
+  saldoInicial: number;
   facturacion: number;
   retenciones: number;
   impuestos: number;
@@ -225,34 +226,37 @@ export interface ProyeccionFlujo {
   ingresosNetos: number;
   egresos: number;
   flujoNeto: number;
-  saldoAcumulado: number;
+  saldoFinal: number;
 }
 
 export function generarProyeccionAnual(): ProyeccionFlujo[] {
   const proyecciones: ProyeccionFlujo[] = [];
-  let saldoAcumulado = 31_000_000; // Saldo inicial mayo 31
+  let saldoActual = 0; // Saldo inicial enero = 0 (sin datos anteriores)
 
-  const ventasAno = { ...datosVentas, ...ventasProyectadas2026 };
-  const costosMensual = [
-    67_500_000, 64_200_000, 61_800_000, 65_400_000, 78_267_573, // Ene-May real
-    82_100_000, 79_900_000, 78_500_000, 85_400_000, 88_600_000, 85_200_000, 78_900_000 // Jun-Dic proyectado
+  // Solo datos reales: Enero-Junio 2026
+  const ventasReales = { ...datosVentas, junio: 135_600_000 }; // Junio estimado
+  const costosMensualReal = [
+    67_500_000, 64_200_000, 61_800_000, 65_400_000, 78_267_573, 82_100_000 // Ene-Jun real
   ];
 
-  const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
 
   meses.forEach((mes, idx) => {
-    const facturacion = Object.values(ventasAno)[idx];
+    const saldoInicial = saldoActual;
+    const facturacion = Object.values(ventasReales)[idx];
     const retenciones = facturacion * 0.08;
     const impuestos = facturacion * 0.02;
     const gastosBancarios = datosRealGastosBancarios[Object.keys(datosRealGastosBancarios)[idx] as keyof typeof datosRealGastosBancarios] || 500_000;
 
     const ingresosNetos = facturacion - retenciones - impuestos - gastosBancarios;
-    const egresos = costosMensual[idx];
+    const egresos = costosMensualReal[idx];
     const flujoNeto = ingresosNetos - egresos;
-    saldoAcumulado += flujoNeto;
+    const saldoFinal = saldoInicial + flujoNeto;
+    saldoActual = saldoFinal;
 
     proyecciones.push({
       mes,
+      saldoInicial,
       facturacion,
       retenciones,
       impuestos,
@@ -260,7 +264,7 @@ export function generarProyeccionAnual(): ProyeccionFlujo[] {
       ingresosNetos,
       egresos,
       flujoNeto,
-      saldoAcumulado,
+      saldoFinal,
     });
   });
 

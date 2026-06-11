@@ -25,10 +25,15 @@ export default function UploadPage() {
   useEffect(() => {
     // Inicializar archivos como pendientes
     const currentMonth = new Date().toISOString().slice(0, 7) // "2026-06"
-    const initial = EXPECTED_FILES.map(f => ({
-      name: f.replace('.xlsx', '').replace('.xls', '').replace('.csv', '') + ` ${currentMonth}`,
-      status: 'pending' as const
-    }))
+    const initial = EXPECTED_FILES.map(f => {
+      let baseName = f.replace('.xlsx', '').replace('.xls', '').replace('.csv', '')
+      // Remover año duplicado si existe (ej: "Ventas 2026" -> "Ventas")
+      baseName = baseName.replace(' 2026', '').replace(' 2025', '').replace(' 2024', '')
+      return {
+        name: `${baseName} ${currentMonth}`,
+        status: 'pending' as const
+      }
+    })
     setFileStatuses(initial)
   }, [])
 

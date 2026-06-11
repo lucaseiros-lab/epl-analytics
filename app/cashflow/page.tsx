@@ -31,17 +31,17 @@ export default function CashFlowPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="card-stat-green">
-          <p className="stat-label">FLUJO ANUAL NETO</p>
+          <p className="stat-label">FLUJO NETO ENE-JUN</p>
           <p className="stat-value text-green-400 mt-3">{fmt(totales.flujo)}</p>
-          <p className="text-xs text-slate-400 mt-2">2026 Completo</p>
+          <p className="text-xs text-slate-400 mt-2">Período Real</p>
         </div>
         <div className="card-stat-blue">
-          <p className="stat-label">SALDO FINAL PROYECTADO</p>
-          <p className="stat-value text-blue-400 mt-3">{fmt(proyecciones[11].saldoAcumulado)}</p>
-          <p className="text-xs text-slate-400 mt-2">31 Diciembre 2026</p>
+          <p className="stat-label">SALDO FINAL JUNIO</p>
+          <p className="stat-value text-blue-400 mt-3">{fmt(proyecciones[5].saldoFinal)}</p>
+          <p className="text-xs text-slate-400 mt-2">30 Junio 2026</p>
         </div>
         <div className="card-stat-yellow">
-          <p className="stat-label">FACTURACION ANUAL</p>
+          <p className="stat-label">FACTURACION ENE-JUN</p>
           <p className="stat-value text-yellow-400 mt-3">{fmt(totales.facturacion)}</p>
           <p className="text-xs text-slate-400 mt-2">Ingresos brutos</p>
         </div>
@@ -83,65 +83,62 @@ export default function CashFlowPage() {
                 {proyecciones.map((p, i) => (
                   <th key={i} className="px-2 py-2 text-right min-w-20">{p.mes}</th>
                 ))}
-                <th className="px-2 py-2 text-right min-w-20 font-bold">TOTAL</th>
               </tr>
             </thead>
             <tbody>
+              <tr className="border-b bg-slate-950/50 font-bold">
+                <td className="px-2 py-2 text-yellow-400">Saldo Inicial</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-2 text-right text-yellow-400">{fmt(p.saldoInicial)}</td>
+                ))}
+              </tr>
               <tr className="border-b bg-slate-950/30">
                 <td className="px-2 py-2 font-semibold text-slate-200">Facturación</td>
                 {proyecciones.map((p, i) => (
                   <td key={i} className="px-2 py-2 text-right">{fmt(p.facturacion)}</td>
                 ))}
-                <td className="px-2 py-2 text-right font-bold">{fmt(totales.facturacion)}</td>
               </tr>
               <tr className="border-b bg-slate-950/30">
                 <td className="px-2 py-2 font-semibold text-red-400">Retenciones</td>
                 {proyecciones.map((p, i) => (
                   <td key={i} className="px-2 py-2 text-right text-red-400">({fmt(p.retenciones)})</td>
                 ))}
-                <td className="px-2 py-2 text-right text-red-400 font-bold">({fmt(totales.retenciones)})</td>
               </tr>
               <tr className="border-b bg-slate-950/30">
                 <td className="px-2 py-2 font-semibold text-orange-400">Impuestos</td>
                 {proyecciones.map((p, i) => (
                   <td key={i} className="px-2 py-2 text-right text-orange-400">({fmt(p.impuestos)})</td>
                 ))}
-                <td className="px-2 py-2 text-right text-orange-400 font-bold">({fmt(totales.impuestos)})</td>
               </tr>
               <tr className="border-b bg-slate-950/30">
                 <td className="px-2 py-2 font-semibold text-purple-400">Gastos Bancarios</td>
                 {proyecciones.map((p, i) => (
                   <td key={i} className="px-2 py-2 text-right text-purple-400">({fmt(p.gastosBancarios)})</td>
                 ))}
-                <td className="px-2 py-2 text-right text-purple-400 font-bold">({fmt(totales.gastos)})</td>
               </tr>
               <tr className="border-b bg-slate-950/50 font-bold">
                 <td className="px-2 py-2 text-green-400">Ingresos Netos</td>
                 {proyecciones.map((p, i) => (
                   <td key={i} className="px-2 py-2 text-right text-green-400">{fmt(p.ingresosNetos)}</td>
                 ))}
-                <td className="px-2 py-2 text-right text-green-400">{fmt(totales.ingresos)}</td>
               </tr>
               <tr className="border-b bg-slate-950/30">
                 <td className="px-2 py-2 font-semibold text-pink-400">Costos Operativos</td>
                 {proyecciones.map((p, i) => (
                   <td key={i} className="px-2 py-2 text-right text-pink-400">({fmt(p.egresos)})</td>
                 ))}
-                <td className="px-2 py-2 text-right text-pink-400 font-bold">({fmt(totales.egresos)})</td>
               </tr>
               <tr className="border-b bg-slate-950/50 font-bold">
                 <td className="px-2 py-2 text-blue-400">Flujo Neto</td>
                 {proyecciones.map((p, i) => (
                   <td key={i} className="px-2 py-2 text-right text-blue-400">{fmt(p.flujoNeto)}</td>
                 ))}
-                <td className="px-2 py-2 text-right text-blue-400">{fmt(totales.flujo)}</td>
               </tr>
               <tr className="bg-slate-800 font-bold">
-                <td className="px-2 py-3 text-yellow-400">Saldo Acumulado</td>
+                <td className="px-2 py-3 text-yellow-400">Saldo Final</td>
                 {proyecciones.map((p, i) => (
-                  <td key={i} className="px-2 py-3 text-right text-yellow-400">{fmt(p.saldoAcumulado)}</td>
+                  <td key={i} className="px-2 py-3 text-right text-yellow-400">{fmt(p.saldoFinal)}</td>
                 ))}
-                <td className="px-2 py-3 text-right text-yellow-400">{fmt(proyecciones[11].saldoAcumulado)}</td>
               </tr>
             </tbody>
           </table>
@@ -150,14 +147,14 @@ export default function CashFlowPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="card-stat-yellow p-8">
-          <p className="stat-label">SALDO INICIAL (31/05/2026)</p>
-          <p className="text-5xl font-bold text-yellow-400 mt-4">$31.0M</p>
-          <p className="text-sm text-slate-300 mt-4">Banco Francés - Efectivo disponible</p>
+          <p className="stat-label">SALDO INICIAL ENERO</p>
+          <p className="text-5xl font-bold text-yellow-400 mt-4">{fmt(proyecciones[0].saldoInicial)}</p>
+          <p className="text-sm text-slate-300 mt-4">Período sin datos anteriores</p>
         </div>
         <div className="card-stat-green p-8">
-          <p className="stat-label">SALDO PROYECTADO (31/12/2026)</p>
-          <p className="text-5xl font-bold text-green-400 mt-4">{fmt(proyecciones[11].saldoAcumulado)}</p>
-          <p className="text-sm text-slate-300 mt-4">Cierre de año - Flujos positivos</p>
+          <p className="stat-label">SALDO FINAL JUNIO</p>
+          <p className="text-5xl font-bold text-green-400 mt-4">{fmt(proyecciones[5].saldoFinal)}</p>
+          <p className="text-sm text-slate-300 mt-4">30 Junio 2026 - Datos reales</p>
         </div>
       </div>
 
