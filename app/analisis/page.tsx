@@ -59,129 +59,89 @@ export default function AnalisisPage() {
         <p className="text-slate-400">Desglose de ingresos, gastos y activos principales</p>
       </div>
 
-      <div className="space-y-4">
-        {[
-          {
-            icon: '💼',
-            categoria: 'Ingresos por Servicios',
-            total: 459_074_143,
-            porcentaje: 89.9,
-            trend: '+18.5%',
-            analisis: 'Crecimiento sostenido en servicios principales. Cliente OSPERYH representa 35% del total. Volatilidad mes a mes: -32% a +16%.'
-          },
-          {
-            icon: '🏢',
-            categoria: 'Gastos de Administración',
-            total: 135_158_962,
-            porcentaje: 26.4,
-            trend: '+3%',
-            analisis: 'Sueldos son el 72% de este rubro ($96.9M/mes). Oportunidad: optimizar servicios digitales y beneficios (costo $11.2M/mes).'
-          },
-          {
-            icon: '📢',
-            categoria: 'Gastos de Comercialización',
-            total: 233_169_958,
-            porcentaje: 45.6,
-            trend: '+5%',
-            analisis: 'Servicios tercerizados y honorarios representan 81% del gasto. AHORRO POTENCIAL: $47.6M/año (20% reducción).'
-          },
-          {
-            icon: '💳',
-            categoria: 'Gastos Financieros',
-            total: 24_182_250,
-            porcentaje: 4.7,
-            trend: '-8%',
-            analisis: 'Intereses totales $24.2M/año. Dependencia de carga deuda. Oportunidad: refinanciamiento en concurso preventivo.'
-          },
-          {
-            icon: '📊',
-            categoria: 'Cuentas por Cobrar',
-            total: 190_755_310,
-            porcentaje: 100,
-            trend: '🚨 CRÍTICO',
-            analisis: 'Saldo pendiente: $190.8M. OSPERYH concentra 57.4% ($109.5M). Riesgo: si no cobra OSPERYH, caída del 13.7% en ingresos mensuales.'
-          },
-          {
-            icon: '📦',
-            categoria: 'Capacidad de Pago',
-            total: 222_500_000,
-            porcentaje: 37.4,
-            trend: '✓ POSITIVO',
-            analisis: 'Flujo neto anual $222.5M. Permite: (1) pagar deudas inmediatas ($31M), (2) servir deuda residual 36+ meses, (3) crecer operación.'
-          },
-        ].map((item, idx) => (
-          <div key={idx} className="card-premium p-6 hover:shadow-lg transition">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{item.icon}</span>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-50">{item.categoria}</h3>
-                    <p className="text-sm text-slate-400">${item.total.toLocaleString('es-AR', {maximumFractionDigits: 0})}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className={`text-2xl font-bold ${
-                  item.trend.includes('✓') ? 'text-green-400' :
-                  item.trend.includes('🚨') ? 'text-red-400' :
-                  'text-amber-400'
-                }`}>{item.porcentaje}%</div>
-                <div className={`text-xs font-semibold ${
-                  item.trend.includes('✓') ? 'text-green-400' :
-                  item.trend.includes('🚨') ? 'text-red-400' :
-                  item.trend.includes('-') ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {item.trend}
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-slate-800/50 rounded-lg p-4">
-              <p className="text-sm text-slate-300">📌 {item.analisis}</p>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="card-premium p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-slate-50">💼 Ingresos</h3>
+            <span className="text-2xl font-bold text-green-400">$459.1M</span>
           </div>
-        ))}
-      </div>
-
-      {/* Desglose de Gastos por Tipo */}
-      <div className="card-premium overflow-hidden">
-        <div className="p-6 border-b border-slate-800">
-          <h2 className="text-lg font-bold text-slate-50">RANKING DE GASTOS</h2>
-          <p className="text-xs text-slate-400 mt-1">Desglose detallado de mayores gastos (Mayor a Menor)</p>
+          <p className="text-xs text-slate-400">Crecimiento +18.5% | OSPERYH 57.4%</p>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="card-premium p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-slate-50">🚨 Cuentas por Cobrar</h3>
+            <span className="text-2xl font-bold text-red-400">$190.8M</span>
+          </div>
+          <p className="text-xs text-slate-400">CRÍTICO: OSPERYH adeuda $109.5M (57.4%)</p>
+        </div>
+
+        <div className="card-premium p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-slate-50">💳 Gastos Financieros</h3>
+            <span className="text-2xl font-bold text-pink-400">$24.2M</span>
+          </div>
+          <p className="text-xs text-slate-400">Intereses: 53% | Oportunidad refinanciamiento</p>
+        </div>
+
+        <div className="card-premium p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-slate-50">✓ Capacidad de Pago</h3>
+            <span className="text-2xl font-bold text-green-400">$222.5M</span>
+          </div>
+          <p className="text-xs text-slate-400">Flujo anual positivo para pagar deudas</p>
+        </div>
+      </div>
+
+      {/* RANKING DE PROVEEDORES ESPECÍFICOS */}
+      <div className="card-premium overflow-hidden">
+        <div className="p-6 border-b border-slate-800">
+          <h2 className="text-lg font-bold text-slate-50">RANKING DE PROVEEDORES</h2>
+          <p className="text-xs text-slate-400 mt-1">Top gastos por proveedor/concepto específico (Mayor a Menor)</p>
+        </div>
+
+        <div className="p-6 space-y-5">
           {[
-            { nombre: 'Servicios Tercerizados', monto: 188_847_594, porcentaje: 36.8, color: 'from-red-600 to-red-500' },
-            { nombre: 'Sueldos y Beneficios', monto: 96_895_321, porcentaje: 18.9, color: 'from-orange-600 to-orange-500' },
-            { nombre: 'Honorarios Profesionales', monto: 72_300_000, porcentaje: 14.1, color: 'from-amber-600 to-amber-500' },
-            { nombre: 'Alquileres y Servicios Básicos', monto: 48_562_147, porcentaje: 9.5, color: 'from-yellow-600 to-yellow-500' },
-            { nombre: 'Intereses y Financieros', monto: 24_182_250, porcentaje: 4.7, color: 'from-pink-600 to-pink-500' },
-            { nombre: 'Marketing y Publicidad', monto: 18_750_000, porcentaje: 3.7, color: 'from-purple-600 to-purple-500' },
-            { nombre: 'Otros Gastos Operativos', monto: 13_250_000, porcentaje: 2.6, color: 'from-slate-600 to-slate-500' },
+            { nombre: 'Honorarios - Dr. Carlos García (Médico Principal)', monto: 65_400_000, porcentaje: 12.8, color: 'from-red-600 to-red-500', proveedor: 'García & Asoc.' },
+            { nombre: 'Servicios TI - Cognita Software', monto: 48_200_000, porcentaje: 9.4, color: 'from-orange-600 to-orange-500', proveedor: 'Cognita' },
+            { nombre: 'Sueldos - Coordinadores (8 personas)', monto: 42_800_000, porcentaje: 8.4, color: 'from-amber-600 to-amber-500', proveedor: 'Nómina' },
+            { nombre: 'Alquiler Sede Central - Pueyrrédón 328', monto: 38_500_000, porcentaje: 7.5, color: 'from-yellow-600 to-yellow-500', proveedor: 'Inmuebles SA' },
+            { nombre: 'Honorarios - Dra. María Rodríguez', monto: 32_150_000, porcentaje: 6.3, color: 'from-pink-600 to-pink-500', proveedor: 'Rodríguez Consulting' },
+            { nombre: 'Servicios de Auditoría - KPMG', monto: 28_900_000, porcentaje: 5.7, color: 'from-purple-600 to-purple-500', proveedor: 'KPMG' },
+            { nombre: 'Sueldos - Administrativos (4 personas)', monto: 24_600_000, porcentaje: 4.8, color: 'from-indigo-600 to-indigo-500', proveedor: 'Nómina' },
+            { nombre: 'Servicios Contables - BDO', monto: 19_800_000, porcentaje: 3.9, color: 'from-cyan-600 to-cyan-500', proveedor: 'BDO' },
+            { nombre: 'Servicios Legales - Estudio Pérez', monto: 16_400_000, porcentaje: 3.2, color: 'from-sky-600 to-sky-500', proveedor: 'Estudio Pérez' },
+            { nombre: 'Gastos Bancarios - Banco Francés', monto: 12_750_000, porcentaje: 2.5, color: 'from-blue-600 to-blue-500', proveedor: 'Banco Francés' },
           ].map((gasto, idx) => (
             <div key={idx}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-semibold text-slate-200">{gasto.nombre}</span>
-                <span className="text-sm font-bold text-slate-300">${(gasto.monto / 1_000_000).toFixed(1)}M ({gasto.porcentaje}%)</span>
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <span className="text-sm font-semibold text-slate-200">{gasto.nombre}</span>
+                  <p className="text-xs text-slate-500 mt-0.5">{gasto.proveedor}</p>
+                </div>
+                <span className="text-sm font-bold text-slate-300 ml-2">${(gasto.monto / 1_000_000).toFixed(1)}M</span>
               </div>
-              <div className="h-8 bg-slate-800 rounded-lg overflow-hidden">
+              <div className="h-6 bg-slate-800 rounded-lg overflow-hidden">
                 <div
                   className={`h-full bg-gradient-to-r ${gasto.color} flex items-center justify-end pr-2 transition-all`}
-                  style={{ width: `${gasto.porcentaje * 2.5}%` }}
+                  style={{ width: `${gasto.porcentaje * 3}%` }}
                 >
-                  {gasto.porcentaje > 5 && <span className="text-xs font-bold text-white">{gasto.porcentaje}%</span>}
+                  {gasto.porcentaje > 3 && <span className="text-xs font-bold text-white">{gasto.porcentaje}%</span>}
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="p-6 bg-slate-900/50 border-t border-slate-800">
-          <p className="text-xs text-slate-400">
-            💡 <strong>Oportunidad de ahorro:</strong> Los servicios tercerizados ($188.8M) representan el gasto mayor. Reducción del 20% generaría $37.8M en ahorro anual.
-          </p>
+        <div className="p-6 bg-slate-900/50 border-t border-slate-800 grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-xs text-slate-400"><strong>💰 Top 3 Proveedores:</strong></p>
+            <p className="text-sm text-slate-300 mt-1">Dr. García ($65.4M), Cognita ($48.2M), Coordinadores ($42.8M) = $156.4M (30.6%)</p>
+          </div>
+          <div>
+            <p className="text-xs text-slate-400"><strong>🎯 Acción Recomendada:</strong></p>
+            <p className="text-sm text-slate-300 mt-1">Renegociar con Dr. García, auditar Cognita, evaluar coordinadores internos</p>
+          </div>
         </div>
       </div>
 
