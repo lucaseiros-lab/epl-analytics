@@ -310,7 +310,7 @@ export function evaluarRiesgos() {
 // FUNCIÓN: RECOMENDACIONES CON IA
 export function generarRecomendaciones() {
   const proyeccion = generarProyeccionAnual();
-  const saldoFinal = proyeccion[proyeccion.length - 1].saldoAcumulado;
+  const saldoFinal = proyeccion[proyeccion.length - 1].saldoFinal;
 
   return {
     flujoAnualPositivo: saldoFinal > 31_000_000,
