@@ -102,24 +102,26 @@ export default function AnalisisPage() {
 
         <div className="p-6 space-y-5">
           {[
-            { nombre: 'Honorarios - Dr. Carlos García (Médico Principal)', monto: 65_400_000, porcentaje: 12.8, color: 'from-red-600 to-red-500', proveedor: 'García & Asoc.' },
-            { nombre: 'Servicios TI - Cognita Software', monto: 48_200_000, porcentaje: 9.4, color: 'from-orange-600 to-orange-500', proveedor: 'Cognita' },
-            { nombre: 'Sueldos - Coordinadores (8 personas)', monto: 42_800_000, porcentaje: 8.4, color: 'from-amber-600 to-amber-500', proveedor: 'Nómina' },
-            { nombre: 'Alquiler Sede Central - Pueyrrédón 328', monto: 38_500_000, porcentaje: 7.5, color: 'from-yellow-600 to-yellow-500', proveedor: 'Inmuebles SA' },
-            { nombre: 'Honorarios - Dra. María Rodríguez', monto: 32_150_000, porcentaje: 6.3, color: 'from-pink-600 to-pink-500', proveedor: 'Rodríguez Consulting' },
-            { nombre: 'Servicios de Auditoría - KPMG', monto: 28_900_000, porcentaje: 5.7, color: 'from-purple-600 to-purple-500', proveedor: 'KPMG' },
-            { nombre: 'Sueldos - Administrativos (4 personas)', monto: 24_600_000, porcentaje: 4.8, color: 'from-indigo-600 to-indigo-500', proveedor: 'Nómina' },
-            { nombre: 'Servicios Contables - BDO', monto: 19_800_000, porcentaje: 3.9, color: 'from-cyan-600 to-cyan-500', proveedor: 'BDO' },
-            { nombre: 'Servicios Legales - Estudio Pérez', monto: 16_400_000, porcentaje: 3.2, color: 'from-sky-600 to-sky-500', proveedor: 'Estudio Pérez' },
-            { nombre: 'Gastos Bancarios - Banco Francés', monto: 12_750_000, porcentaje: 2.5, color: 'from-blue-600 to-blue-500', proveedor: 'Banco Francés' },
+            { nombre: 'DAURAT MERCEDES MARIA', monto: 30_000_000, porcentaje: 25.1, color: 'from-red-600 to-red-500' },
+            { nombre: 'CESAR AUGUSTO ARCARO MALITO', monto: 25_597_981, porcentaje: 21.5, color: 'from-orange-600 to-orange-500' },
+            { nombre: 'SANDJIAN & ASOCIADOS', monto: 16_620_000, porcentaje: 13.9, color: 'from-amber-600 to-amber-500' },
+            { nombre: 'BANCO BBVA ARGENTINA', monto: 13_517_044, porcentaje: 11.3, color: 'from-yellow-600 to-yellow-500' },
+            { nombre: 'WNS & ASOCIADOS S.R.L.', monto: 9_543_100, porcentaje: 8.0, color: 'from-pink-600 to-pink-500' },
+            { nombre: 'BANCO SANTANDER RIO SA', monto: 8_249_332, porcentaje: 6.9, color: 'from-purple-600 to-purple-500' },
+            { nombre: 'BANCO DE LA CIUDAD DE BUENOS AIRES', monto: 4_114_597, porcentaje: 3.4, color: 'from-indigo-600 to-indigo-500' },
+            { nombre: 'SACCOL EMILIANO', monto: 3_518_325, porcentaje: 2.9, color: 'from-cyan-600 to-cyan-500' },
+            { nombre: 'GOLAWARE S.R.L.', monto: 3_045_000, porcentaje: 2.5, color: 'from-sky-600 to-sky-500' },
+            { nombre: 'FABIOLA LANDIN', monto: 2_400_000, porcentaje: 2.0, color: 'from-blue-600 to-blue-500' },
+            { nombre: 'ARQUETIPONET S.R.L.', monto: 1_625_676, porcentaje: 1.4, color: 'from-violet-600 to-violet-500' },
+            { nombre: 'FUNDACION CONSENSO', monto: 1_286_525, porcentaje: 1.1, color: 'from-fuchsia-600 to-fuchsia-500' },
+            { nombre: 'TELEFONICA MOVILES ARGENT', monto: 705_926, porcentaje: 0.6, color: 'from-rose-600 to-rose-500' },
+            { nombre: 'SANTA FE COMERCIAL SOCIEDAD DE RESPONSAB', monto: 466_724, porcentaje: 0.4, color: 'from-slate-600 to-slate-500' },
+            { nombre: 'MINDER S A', monto: 292_004, porcentaje: 0.2, color: 'from-gray-600 to-gray-500' },
           ].map((gasto, idx) => (
             <div key={idx}>
-              <div className="flex items-start justify-between mb-2">
-                <div>
-                  <span className="text-sm font-semibold text-slate-200">{gasto.nombre}</span>
-                  <p className="text-xs text-slate-500 mt-0.5">{gasto.proveedor}</p>
-                </div>
-                <span className="text-sm font-bold text-slate-300 ml-2">${(gasto.monto / 1_000_000).toFixed(1)}M</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold text-slate-200">{gasto.nombre}</span>
+                <span className="text-sm font-bold text-slate-300">${(gasto.monto / 1_000_000).toFixed(1)}M ({gasto.porcentaje.toFixed(1)}%)</span>
               </div>
               <div className="h-6 bg-slate-800 rounded-lg overflow-hidden">
                 <div
@@ -136,11 +138,11 @@ export default function AnalisisPage() {
         <div className="p-6 bg-slate-900/50 border-t border-slate-800 grid grid-cols-2 gap-4">
           <div>
             <p className="text-xs text-slate-400"><strong>💰 Top 3 Proveedores:</strong></p>
-            <p className="text-sm text-slate-300 mt-1">Dr. García ($65.4M), Cognita ($48.2M), Coordinadores ($42.8M) = $156.4M (30.6%)</p>
+            <p className="text-sm text-slate-300 mt-1">Daurat ($30.0M), Arcaro ($25.6M), Sandjian ($16.6M) = $72.2M (60.5%)</p>
           </div>
           <div>
             <p className="text-xs text-slate-400"><strong>🎯 Acción Recomendada:</strong></p>
-            <p className="text-sm text-slate-300 mt-1">Renegociar con Dr. García, auditar Cognita, evaluar coordinadores internos</p>
+            <p className="text-sm text-slate-300 mt-1">Renegociar términos con Daurat y Arcaro. Revisar cuentas bancarias BBVA y Santander</p>
           </div>
         </div>
       </div>
