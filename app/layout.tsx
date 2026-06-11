@@ -39,6 +39,10 @@ export default function RootLayout({
               <span className="text-lg">🔍</span>
               <span className="font-medium text-sm">Análisis</span>
             </a>
+            <a href="/upload" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 hover:text-slate-50 group">
+              <span className="text-lg">📁</span>
+              <span className="font-medium text-sm">Upload</span>
+            </a>
             <a href="/nomina" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 hover:text-slate-50 group">
               <span className="text-lg">👥</span>
               <span className="font-medium text-sm">Nómina</span>
