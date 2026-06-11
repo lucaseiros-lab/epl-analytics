@@ -26,7 +26,7 @@ export default function UploadPage() {
           })
 
           setUploadedFiles(prev => [...prev, file.name])
-          setParsedData(prev => ({
+          setParsedData((prev: any) => ({
             ...prev,
             [file.name]: sheetData
           }))
