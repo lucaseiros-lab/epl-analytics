@@ -16,10 +16,6 @@
     "jsx": "preserve",
     "incremental": true,
     "allowJs": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    },
     "plugins": [
       {
         "name": "next"

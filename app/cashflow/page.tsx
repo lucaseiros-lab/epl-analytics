@@ -1,6 +1,6 @@
 'use client'
 
-import { generarProyeccionAnual } from '@/lib/financialAnalysis'
+import { generarProyeccionAnual } from '../../lib/financialAnalysis'
 
 export default function CashFlowPage() {
   const proyecciones = generarProyeccionAnual()

@@ -1,6 +1,6 @@
 'use client'
 
-import { getStatusColor, getStatusLabel } from '@/lib/analysis'
+import { getStatusColor, getStatusLabel } from '../lib/analysis'
 
 interface TrafficLightProps {
   status: 'success' | 'warning' | 'danger'

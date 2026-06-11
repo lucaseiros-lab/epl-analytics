@@ -1,6 +1,6 @@
 'use client'
 
-import { calcularKPIs, totalVentas, datosPyL, margenNetoReal, clientesTop5, proveedoresCostos } from '@/lib/financialAnalysis'
+import { calcularKPIs, totalVentas, datosPyL, margenNetoReal, clientesTop5, proveedoresCostos } from '../lib/financialAnalysis'
 
 export function Dashboard() {
   const kpis = calcularKPIs()
