@@ -144,6 +144,47 @@ export default function AnalisisPage() {
         ))}
       </div>
 
+      {/* Desglose de Gastos por Tipo */}
+      <div className="card-premium overflow-hidden">
+        <div className="p-6 border-b border-slate-800">
+          <h2 className="text-lg font-bold text-slate-50">RANKING DE GASTOS</h2>
+          <p className="text-xs text-slate-400 mt-1">Desglose detallado de mayores gastos (Mayor a Menor)</p>
+        </div>
+
+        <div className="p-6 space-y-6">
+          {[
+            { nombre: 'Servicios Tercerizados', monto: 188_847_594, porcentaje: 36.8, color: 'from-red-600 to-red-500' },
+            { nombre: 'Sueldos y Beneficios', monto: 96_895_321, porcentaje: 18.9, color: 'from-orange-600 to-orange-500' },
+            { nombre: 'Honorarios Profesionales', monto: 72_300_000, porcentaje: 14.1, color: 'from-amber-600 to-amber-500' },
+            { nombre: 'Alquileres y Servicios Básicos', monto: 48_562_147, porcentaje: 9.5, color: 'from-yellow-600 to-yellow-500' },
+            { nombre: 'Intereses y Financieros', monto: 24_182_250, porcentaje: 4.7, color: 'from-pink-600 to-pink-500' },
+            { nombre: 'Marketing y Publicidad', monto: 18_750_000, porcentaje: 3.7, color: 'from-purple-600 to-purple-500' },
+            { nombre: 'Otros Gastos Operativos', monto: 13_250_000, porcentaje: 2.6, color: 'from-slate-600 to-slate-500' },
+          ].map((gasto, idx) => (
+            <div key={idx}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold text-slate-200">{gasto.nombre}</span>
+                <span className="text-sm font-bold text-slate-300">${(gasto.monto / 1_000_000).toFixed(1)}M ({gasto.porcentaje}%)</span>
+              </div>
+              <div className="h-8 bg-slate-800 rounded-lg overflow-hidden">
+                <div
+                  className={`h-full bg-gradient-to-r ${gasto.color} flex items-center justify-end pr-2 transition-all`}
+                  style={{ width: `${gasto.porcentaje * 2.5}%` }}
+                >
+                  {gasto.porcentaje > 5 && <span className="text-xs font-bold text-white">{gasto.porcentaje}%</span>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="p-6 bg-slate-900/50 border-t border-slate-800">
+          <p className="text-xs text-slate-400">
+            💡 <strong>Oportunidad de ahorro:</strong> Los servicios tercerizados ($188.8M) representan el gasto mayor. Reducción del 20% generaría $37.8M en ahorro anual.
+          </p>
+        </div>
+      </div>
+
       {/* Recomendaciones de análisis */}
       <div className="card-premium p-8 bg-gradient-to-r from-slate-900 to-slate-800">
         <h2 className="text-xl font-bold text-slate-50 mb-6">Recomendaciones por Categoría</h2>

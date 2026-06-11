@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import * as XLSX from 'xlsx'
 
 const EXPECTED_FILES = [
@@ -13,9 +13,24 @@ const EXPECTED_FILES = [
   'Movimientos Banco Frances.xls'
 ]
 
+interface FileStatus {
+  name: string
+  status: 'pending' | 'success' | 'error'
+}
+
 export default function UploadPage() {
-  const [uploadedFiles, setUploadedFiles] = useState<string[]>([])
+  const [fileStatuses, setFileStatuses] = useState<FileStatus[]>([])
   const [successMessage, setSuccessMessage] = useState('')
+
+  useEffect(() => {
+    // Inicializar archivos como pendientes
+    const currentMonth = new Date().toISOString().slice(0, 7) // "2026-06"
+    const initial = EXPECTED_FILES.map(f => ({
+      name: f.replace('.xlsx', '').replace('.xls', '').replace('.csv', '') + ` ${currentMonth}`,
+      status: 'pending' as const
+    }))
+    setFileStatuses(initial)
+  }, [])
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
@@ -31,10 +46,17 @@ export default function UploadPage() {
           const data = event.target?.result
           XLSX.read(data, { type: 'binary' })
 
-          // Si no hay error, fue exitoso
-          setUploadedFiles(prev => [...prev, file.name])
-          successCount++
+          // Marcar como exitoso
+          setFileStatuses(prev => prev.map(f => {
+            const baseName = f.name.split(' ')[0]
+            const fileName = file.name.split('.')[0]
+            if (baseName === fileName) {
+              return { ...f, status: 'success' }
+            }
+            return f
+          }))
 
+          successCount++
           if (successCount === files.length) {
             setSuccessMessage(`✓ ${files.length} archivo(s) procesado(s) exitosamente`)
             setTimeout(() => setSuccessMessage(''), 3000)
@@ -43,7 +65,16 @@ export default function UploadPage() {
           console.log(`✓ Procesado: ${file.name}`)
         } catch (error) {
           console.error(`Error parsing ${file.name}:`, error)
-          alert(`Error al procesar ${file.name}`)
+
+          // Marcar como error
+          setFileStatuses(prev => prev.map(f => {
+            const baseName = f.name.split(' ')[0]
+            const fileName = file.name.split('.')[0]
+            if (baseName === fileName) {
+              return { ...f, status: 'error' }
+            }
+            return f
+          }))
         }
       }
 
@@ -51,15 +82,15 @@ export default function UploadPage() {
     })
   }
 
-  const missingFiles = EXPECTED_FILES.filter(f => !uploadedFiles.some(u => u.includes(f.split('.')[0])))
-  const hasMissingFiles = missingFiles.length > 0
+  const allSuccessful = fileStatuses.every(f => f.status === 'success')
+  const hasPending = fileStatuses.some(f => f.status === 'pending')
 
-  // Guardar en localStorage cuando se complete
+  // Guardar en localStorage
   if (typeof window !== 'undefined') {
-    const currentMonth = new Date().toISOString().slice(0, 7) // "2026-06"
-    if (hasMissingFiles) {
+    const currentMonth = new Date().toISOString().slice(0, 7)
+    if (hasPending) {
       localStorage.setItem(`month-${currentMonth}-pending`, 'true')
-    } else if (uploadedFiles.length > 0) {
+    } else if (allSuccessful) {
       localStorage.removeItem(`month-${currentMonth}-pending`)
     }
   }
@@ -68,7 +99,7 @@ export default function UploadPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-4xl font-bold text-slate-50">Upload de Datos Financieros</h1>
-        <p className="text-slate-400 mt-2">Sube los archivos del mes para actualizar el dashboard</p>
+        <p className="text-slate-400 mt-2">Sube los archivos del mes actual para actualizar el dashboard</p>
       </div>
 
       {successMessage && (
@@ -93,27 +124,29 @@ export default function UploadPage() {
         </label>
       </div>
 
-      {uploadedFiles.length > 0 && (
-        <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
-          <h2 className="text-xl font-bold text-slate-50 mb-4">✓ Archivos procesados ({uploadedFiles.length})</h2>
-          <div className="space-y-2">
-            {uploadedFiles.map((file, i) => (
-              <div key={i} className="text-green-400">
-                ✓ {file}
-              </div>
-            ))}
-          </div>
+      <div className="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
+        <h2 className="text-xl font-bold text-slate-50 mb-4">📋 Archivos faltantes</h2>
+        <div className="space-y-2">
+          {fileStatuses.map((file, i) => (
+            <div key={i} className="flex items-center gap-3">
+              {file.status === 'success' && <span className="text-green-400 text-lg">✓</span>}
+              {file.status === 'pending' && <span className="text-slate-500 text-lg">○</span>}
+              {file.status === 'error' && <span className="text-red-400 text-lg">✗</span>}
+              <span className={
+                file.status === 'success' ? 'text-green-400' :
+                file.status === 'error' ? 'text-red-400' :
+                'text-slate-300'
+              }>
+                {file.name}
+              </span>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
 
-      {hasMissingFiles && (
-        <div className="bg-red-900/20 p-6 rounded-lg border border-red-700">
-          <h2 className="text-xl font-bold text-red-300 mb-4">🔴 Archivos faltantes ({missingFiles.length})</h2>
-          <ul className="text-red-300 space-y-2 text-sm">
-            {missingFiles.map((file, i) => (
-              <li key={i}>⚠ {file}</li>
-            ))}
-          </ul>
+      {allSuccessful && (
+        <div className="bg-green-900/20 border border-green-700 p-6 rounded-lg text-green-300">
+          ✓ Todos los archivos del mes han sido procesados correctamente
         </div>
       )}
     </div>

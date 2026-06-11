@@ -79,40 +79,68 @@ export default function CashFlowPage() {
           <table className="w-full text-xs">
             <thead>
               <tr className="bg-slate-800">
-                <th className="px-2 py-2 text-left font-bold">Mes</th>
-                <th className="px-2 py-2 text-right">Facturacion</th>
-                <th className="px-2 py-2 text-right">Retenciones</th>
-                <th className="px-2 py-2 text-right">Impuestos</th>
-                <th className="px-2 py-2 text-right">Gastos Banc.</th>
-                <th className="px-2 py-2 text-right text-green-400">Ingresos Netos</th>
-                <th className="px-2 py-2 text-right">Costos</th>
-                <th className="px-2 py-2 text-right text-blue-400">Flujo Neto</th>
-                <th className="px-2 py-2 text-right text-yellow-400">Saldo</th>
+                <th className="px-2 py-2 text-left font-bold w-40">Concepto</th>
+                {proyecciones.map((p, i) => (
+                  <th key={i} className="px-2 py-2 text-right min-w-20">{p.mes}</th>
+                ))}
+                <th className="px-2 py-2 text-right min-w-20 font-bold">TOTAL</th>
               </tr>
             </thead>
             <tbody>
-              {proyecciones.map((p, i) => (
-                <tr key={i} className={i < 5 ? 'border-b bg-slate-950/30' : 'border-b bg-slate-950/50'}>
-                  <td className="px-2 py-2 font-semibold text-slate-200">{p.mes}</td>
-                  <td className="px-2 py-2 text-right">{fmt(p.facturacion)}</td>
-                  <td className="px-2 py-2 text-right text-red-400">({fmt(p.retenciones)})</td>
-                  <td className="px-2 py-2 text-right text-orange-400">({fmt(p.impuestos)})</td>
-                  <td className="px-2 py-2 text-right text-purple-400">({fmt(p.gastosBancarios)})</td>
-                  <td className="px-2 py-2 text-right text-green-400 font-bold">{fmt(p.ingresosNetos)}</td>
-                  <td className="px-2 py-2 text-right text-pink-400">({fmt(p.egresos)})</td>
-                  <td className="px-2 py-2 text-right text-blue-400 font-bold">{fmt(p.flujoNeto)}</td>
-                  <td className="px-2 py-2 text-right text-yellow-400 font-bold">{fmt(p.saldoAcumulado)}</td>
-                </tr>
-              ))}
+              <tr className="border-b bg-slate-950/30">
+                <td className="px-2 py-2 font-semibold text-slate-200">Facturación</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-2 text-right">{fmt(p.facturacion)}</td>
+                ))}
+                <td className="px-2 py-2 text-right font-bold">{fmt(totales.facturacion)}</td>
+              </tr>
+              <tr className="border-b bg-slate-950/30">
+                <td className="px-2 py-2 font-semibold text-red-400">Retenciones</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-2 text-right text-red-400">({fmt(p.retenciones)})</td>
+                ))}
+                <td className="px-2 py-2 text-right text-red-400 font-bold">({fmt(totales.retenciones)})</td>
+              </tr>
+              <tr className="border-b bg-slate-950/30">
+                <td className="px-2 py-2 font-semibold text-orange-400">Impuestos</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-2 text-right text-orange-400">({fmt(p.impuestos)})</td>
+                ))}
+                <td className="px-2 py-2 text-right text-orange-400 font-bold">({fmt(totales.impuestos)})</td>
+              </tr>
+              <tr className="border-b bg-slate-950/30">
+                <td className="px-2 py-2 font-semibold text-purple-400">Gastos Bancarios</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-2 text-right text-purple-400">({fmt(p.gastosBancarios)})</td>
+                ))}
+                <td className="px-2 py-2 text-right text-purple-400 font-bold">({fmt(totales.gastos)})</td>
+              </tr>
+              <tr className="border-b bg-slate-950/50 font-bold">
+                <td className="px-2 py-2 text-green-400">Ingresos Netos</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-2 text-right text-green-400">{fmt(p.ingresosNetos)}</td>
+                ))}
+                <td className="px-2 py-2 text-right text-green-400">{fmt(totales.ingresos)}</td>
+              </tr>
+              <tr className="border-b bg-slate-950/30">
+                <td className="px-2 py-2 font-semibold text-pink-400">Costos Operativos</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-2 text-right text-pink-400">({fmt(p.egresos)})</td>
+                ))}
+                <td className="px-2 py-2 text-right text-pink-400 font-bold">({fmt(totales.egresos)})</td>
+              </tr>
+              <tr className="border-b bg-slate-950/50 font-bold">
+                <td className="px-2 py-2 text-blue-400">Flujo Neto</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-2 text-right text-blue-400">{fmt(p.flujoNeto)}</td>
+                ))}
+                <td className="px-2 py-2 text-right text-blue-400">{fmt(totales.flujo)}</td>
+              </tr>
               <tr className="bg-slate-800 font-bold">
-                <td className="px-2 py-3">TOTAL 2026</td>
-                <td className="px-2 py-3 text-right">{fmt(totales.facturacion)}</td>
-                <td className="px-2 py-3 text-right text-red-400">({fmt(totales.retenciones)})</td>
-                <td className="px-2 py-3 text-right text-orange-400">({fmt(totales.impuestos)})</td>
-                <td className="px-2 py-3 text-right text-purple-400">({fmt(totales.gastos)})</td>
-                <td className="px-2 py-3 text-right text-green-400">{fmt(totales.ingresos)}</td>
-                <td className="px-2 py-3 text-right text-pink-400">({fmt(totales.egresos)})</td>
-                <td className="px-2 py-3 text-right text-blue-400">{fmt(totales.flujo)}</td>
+                <td className="px-2 py-3 text-yellow-400">Saldo Acumulado</td>
+                {proyecciones.map((p, i) => (
+                  <td key={i} className="px-2 py-3 text-right text-yellow-400">{fmt(p.saldoAcumulado)}</td>
+                ))}
                 <td className="px-2 py-3 text-right text-yellow-400">{fmt(proyecciones[11].saldoAcumulado)}</td>
               </tr>
             </tbody>
