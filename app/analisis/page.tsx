@@ -1,6 +1,41 @@
 'use client'
 
+import { useState, useEffect } from 'react'
+
+interface ProveedorData {
+  nombre: string
+  monto: number
+}
+
+interface ComprasData {
+  [mes: string]: {
+    ranking: ProveedorData[]
+    total: number
+  }
+}
+
 export default function AnalisisPage() {
+  const [selectedMonth, setSelectedMonth] = useState('2026-06')
+  const [comprasData, setComprasData] = useState<ComprasData | null>(null)
+  const [meses, setMeses] = useState<string[]>([])
+
+  useEffect(() => {
+    // Cargar datos de compras
+    fetch('/compras-por-mes.json')
+      .then(res => res.json())
+      .then((data: ComprasData) => {
+        setComprasData(data)
+        const mesesDisponibles = Object.keys(data).sort().reverse()
+        setMeses(mesesDisponibles)
+        // Seleccionar el mes más reciente
+        if (mesesDisponibles.length > 0) {
+          setSelectedMonth(mesesDisponibles[0])
+        }
+      })
+  }, [])
+
+  const currentData = comprasData?.[selectedMonth]
+  const fmt = (n: number): string => `$${(n / 1_000_000).toFixed(1)}M`
   const analisis = [
     {
       categoria: 'Ingresos por Servicios',
@@ -54,9 +89,23 @@ export default function AnalisisPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-50 mb-1">Análisis Detallado</h1>
-        <p className="text-slate-400">Desglose de ingresos, gastos y activos principales</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-50 mb-1">Análisis Detallado</h1>
+          <p className="text-slate-400">Desglose de gastos por proveedor</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <label className="text-sm text-slate-400">Período:</label>
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-50 cursor-pointer hover:border-slate-600"
+          >
+            {meses.map(mes => (
+              <option key={mes} value={mes}>{mes}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -93,59 +142,71 @@ export default function AnalisisPage() {
         </div>
       </div>
 
-      {/* RANKING DE PROVEEDORES ESPECÍFICOS */}
-      <div className="card-premium overflow-hidden">
-        <div className="p-6 border-b border-slate-800">
-          <h2 className="text-lg font-bold text-slate-50">RANKING DE PROVEEDORES</h2>
-          <p className="text-xs text-slate-400 mt-1">Top gastos por proveedor/concepto específico (Mayor a Menor)</p>
-        </div>
-
-        <div className="p-6 space-y-5">
-          {[
-            { nombre: 'DAURAT MERCEDES MARIA', monto: 30_000_000, porcentaje: 25.1, color: 'from-red-600 to-red-500' },
-            { nombre: 'CESAR AUGUSTO ARCARO MALITO', monto: 25_597_981, porcentaje: 21.5, color: 'from-orange-600 to-orange-500' },
-            { nombre: 'SANDJIAN & ASOCIADOS', monto: 16_620_000, porcentaje: 13.9, color: 'from-amber-600 to-amber-500' },
-            { nombre: 'BANCO BBVA ARGENTINA', monto: 13_517_044, porcentaje: 11.3, color: 'from-yellow-600 to-yellow-500' },
-            { nombre: 'WNS & ASOCIADOS S.R.L.', monto: 9_543_100, porcentaje: 8.0, color: 'from-pink-600 to-pink-500' },
-            { nombre: 'BANCO SANTANDER RIO SA', monto: 8_249_332, porcentaje: 6.9, color: 'from-purple-600 to-purple-500' },
-            { nombre: 'BANCO DE LA CIUDAD DE BUENOS AIRES', monto: 4_114_597, porcentaje: 3.4, color: 'from-indigo-600 to-indigo-500' },
-            { nombre: 'SACCOL EMILIANO', monto: 3_518_325, porcentaje: 2.9, color: 'from-cyan-600 to-cyan-500' },
-            { nombre: 'GOLAWARE S.R.L.', monto: 3_045_000, porcentaje: 2.5, color: 'from-sky-600 to-sky-500' },
-            { nombre: 'FABIOLA LANDIN', monto: 2_400_000, porcentaje: 2.0, color: 'from-blue-600 to-blue-500' },
-            { nombre: 'ARQUETIPONET S.R.L.', monto: 1_625_676, porcentaje: 1.4, color: 'from-violet-600 to-violet-500' },
-            { nombre: 'FUNDACION CONSENSO', monto: 1_286_525, porcentaje: 1.1, color: 'from-fuchsia-600 to-fuchsia-500' },
-            { nombre: 'TELEFONICA MOVILES ARGENT', monto: 705_926, porcentaje: 0.6, color: 'from-rose-600 to-rose-500' },
-            { nombre: 'SANTA FE COMERCIAL SOCIEDAD DE RESPONSAB', monto: 466_724, porcentaje: 0.4, color: 'from-slate-600 to-slate-500' },
-            { nombre: 'MINDER S A', monto: 292_004, porcentaje: 0.2, color: 'from-gray-600 to-gray-500' },
-          ].map((gasto, idx) => (
-            <div key={idx}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-semibold text-slate-200">{gasto.nombre}</span>
-                <span className="text-sm font-bold text-slate-300">${(gasto.monto / 1_000_000).toFixed(1)}M ({gasto.porcentaje.toFixed(1)}%)</span>
-              </div>
-              <div className="h-6 bg-slate-800 rounded-lg overflow-hidden">
-                <div
-                  className={`h-full bg-gradient-to-r ${gasto.color} flex items-center justify-end pr-2 transition-all`}
-                  style={{ width: `${gasto.porcentaje * 3}%` }}
-                >
-                  {gasto.porcentaje > 3 && <span className="text-xs font-bold text-white">{gasto.porcentaje}%</span>}
-                </div>
+      {/* RANKING DE PROVEEDORES DINÁMICO */}
+      {currentData ? (
+        <div className="card-premium overflow-hidden">
+          <div className="p-6 border-b border-slate-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-slate-50">RANKING DE PROVEEDORES - {selectedMonth}</h2>
+                <p className="text-xs text-slate-400 mt-1">Total gasto del período: {fmt(currentData.total)}</p>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <div className="p-6 bg-slate-900/50 border-t border-slate-800 grid grid-cols-2 gap-4">
-          <div>
-            <p className="text-xs text-slate-400"><strong>💰 Top 3 Proveedores:</strong></p>
-            <p className="text-sm text-slate-300 mt-1">Daurat ($30.0M), Arcaro ($25.6M), Sandjian ($16.6M) = $72.2M (60.5%)</p>
+          <div className="p-6 space-y-4">
+            {currentData.ranking.slice(0, 15).map((proveedor, idx) => {
+              const porcentaje = (proveedor.monto / currentData.total) * 100
+              const colors = [
+                'from-red-600 to-red-500',
+                'from-orange-600 to-orange-500',
+                'from-amber-600 to-amber-500',
+                'from-yellow-600 to-yellow-500',
+                'from-pink-600 to-pink-500',
+                'from-purple-600 to-purple-500',
+                'from-indigo-600 to-indigo-500',
+                'from-cyan-600 to-cyan-500',
+                'from-sky-600 to-sky-500',
+                'from-blue-600 to-blue-500',
+                'from-violet-600 to-violet-500',
+                'from-fuchsia-600 to-fuchsia-500',
+                'from-rose-600 to-rose-500',
+                'from-slate-600 to-slate-500',
+                'from-gray-600 to-gray-500',
+              ]
+
+              return (
+                <div key={idx}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-semibold text-slate-200 flex-1">{proveedor.nombre}</span>
+                    <span className="text-sm font-bold text-slate-300 ml-2">{fmt(proveedor.monto)} ({porcentaje.toFixed(1)}%)</span>
+                  </div>
+                  <div className="h-6 bg-slate-800 rounded-lg overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r ${colors[idx % colors.length]} flex items-center justify-end pr-2 transition-all`}
+                      style={{ width: `${(proveedor.monto / currentData.total) * 100}%` }}
+                    >
+                      {porcentaje > 5 && <span className="text-xs font-bold text-white">{porcentaje.toFixed(0)}%</span>}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
-          <div>
-            <p className="text-xs text-slate-400"><strong>🎯 Acción Recomendada:</strong></p>
-            <p className="text-sm text-slate-300 mt-1">Renegociar términos con Daurat y Arcaro. Revisar cuentas bancarias BBVA y Santander</p>
+
+          <div className="p-6 bg-slate-900/50 border-t border-slate-800">
+            <p className="text-xs text-slate-400">
+              💡 <strong>Top 3 proveedores:</strong> {currentData.ranking[0]?.nombre} ({fmt(currentData.ranking[0]?.monto)})
+              {currentData.ranking.length > 1 && `, ${currentData.ranking[1]?.nombre} (${fmt(currentData.ranking[1]?.monto)})`}
+              {currentData.ranking.length > 2 && `, ${currentData.ranking[2]?.nombre} (${fmt(currentData.ranking[2]?.monto)})`}
+            </p>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="card-premium p-6 text-center text-slate-400">
+          Cargando datos...
+        </div>
+      )}
 
       {/* Recomendaciones de análisis */}
       <div className="card-premium p-8 bg-gradient-to-r from-slate-900 to-slate-800">
