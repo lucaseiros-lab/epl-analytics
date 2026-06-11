@@ -44,6 +44,10 @@ export default function RootLayout({
               <span className="text-lg">📈</span>
               <span className="font-medium text-sm">Presupuestos</span>
             </a>
+            <a href="/presupuesto-economico" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 hover:text-slate-50 group">
+              <span className="text-lg">💼</span>
+              <span className="font-medium text-sm">Presupuesto Económico</span>
+            </a>
             <a href="/upload" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition text-slate-300 hover:text-slate-50 group relative">
               <span className="text-lg">📁</span>
               <span className="font-medium text-sm">Upload</span>
