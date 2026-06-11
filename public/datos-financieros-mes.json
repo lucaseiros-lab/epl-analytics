@@ -1,0 +1,74 @@
+{
+  "2026-01": {
+    "ingresos": 114556899,
+    "cuentasPorCobrar": 45000000,
+    "gastosFinancieros": 3200000,
+    "gastos": {
+      "Sueldos": 15000000,
+      "Servicios TI": 8500000,
+      "Honorarios": 10200000,
+      "Alquileres": 4500000,
+      "Otros": 5600000
+    }
+  },
+  "2026-02": {
+    "ingresos": 85426054,
+    "cuentasPorCobrar": 38000000,
+    "gastosFinancieros": 3100000,
+    "gastos": {
+      "Sueldos": 14800000,
+      "Servicios TI": 8200000,
+      "Honorarios": 9800000,
+      "Alquileres": 4500000,
+      "Otros": 5400000
+    }
+  },
+  "2026-03": {
+    "ingresos": 57672621,
+    "cuentasPorCobrar": 32000000,
+    "gastosFinancieros": 3000000,
+    "gastos": {
+      "Sueldos": 15200000,
+      "Servicios TI": 8800000,
+      "Honorarios": 10500000,
+      "Alquileres": 4500000,
+      "Otros": 6100000
+    }
+  },
+  "2026-04": {
+    "ingresos": 89263114,
+    "cuentasPorCobrar": 40000000,
+    "gastosFinancieros": 3150000,
+    "gastos": {
+      "Sueldos": 15500000,
+      "Servicios TI": 8900000,
+      "Honorarios": 11000000,
+      "Alquileres": 4500000,
+      "Otros": 6200000
+    }
+  },
+  "2026-05": {
+    "ingresos": 112155453,
+    "cuentasPorCobrar": 48000000,
+    "gastosFinancieros": 3300000,
+    "gastos": {
+      "Sueldos": 16000000,
+      "Servicios TI": 9200000,
+      "Honorarios": 11500000,
+      "Alquileres": 4500000,
+      "Otros": 6800000
+    }
+  },
+  "2026-06": {
+    "ingresos": 100500000,
+    "cuentasPorCobrar": 37500000,
+    "gastosFinancieros": 3050000,
+    "gastos": {
+      "Sueldos": 15300000,
+      "Servicios TI": 8400000,
+      "Honorarios": 10300000,
+      "Alquileres": 4500000,
+      "Otros": 5800000
+    }
+  }
+}

@@ -14,27 +14,54 @@ interface ComprasData {
   }
 }
 
+interface FinancieroData {
+  [mes: string]: {
+    ingresos: number
+    cuentasPorCobrar: number
+    gastosFinancieros: number
+    gastos: { [key: string]: number }
+  }
+}
+
 export default function AnalisisPage() {
+  const [selectedYear, setSelectedYear] = useState('2026')
   const [selectedMonth, setSelectedMonth] = useState('2026-06')
   const [comprasData, setComprasData] = useState<ComprasData | null>(null)
+  const [financieroData, setFinancieroData] = useState<FinancieroData | null>(null)
   const [meses, setMeses] = useState<string[]>([])
+  const [años, setAños] = useState<string[]>([])
 
   useEffect(() => {
-    // Cargar datos de compras
-    fetch('/compras-por-mes.json')
-      .then(res => res.json())
-      .then((data: ComprasData) => {
-        setComprasData(data)
-        const mesesDisponibles = Object.keys(data).sort().reverse()
-        setMeses(mesesDisponibles)
-        // Seleccionar el mes más reciente
-        if (mesesDisponibles.length > 0) {
-          setSelectedMonth(mesesDisponibles[0])
-        }
-      })
+    // Cargar datos de compras y financieros
+    Promise.all([
+      fetch('/compras-por-mes.json').then(res => res.json()),
+      fetch('/datos-financieros-mes.json').then(res => res.json())
+    ]).then(([comprasDataRes, financieroDataRes]) => {
+      setComprasData(comprasDataRes)
+      setFinancieroData(financieroDataRes)
+
+      const mesesDisponibles = Object.keys(comprasDataRes).sort().reverse()
+      setMeses(mesesDisponibles)
+
+      const añosDisponibles = [...new Set(mesesDisponibles.map(m => m.substring(0, 4)))].sort().reverse()
+      setAños(añosDisponibles)
+
+      if (mesesDisponibles.length > 0) {
+        setSelectedMonth(mesesDisponibles[0])
+        setSelectedYear(mesesDisponibles[0].substring(0, 4))
+      }
+    })
   }, [])
 
   const currentData = comprasData?.[selectedMonth]
+  const currentFinanciero = financieroData?.[selectedMonth]
+
+  // Calcular totales para el año seleccionado
+  const mesesDelAño = meses.filter(m => m.startsWith(selectedYear))
+  const totalIngresosPorAño = mesesDelAño.reduce((sum, mes) => sum + (financieroData?.[mes]?.ingresos || 0), 0)
+  const totalCPCPorAño = mesesDelAño.reduce((sum, mes) => sum + (financieroData?.[mes]?.cuentasPorCobrar || 0), 0)
+  const totalGastosFinancierosPorAño = mesesDelAño.reduce((sum, mes) => sum + (financieroData?.[mes]?.gastosFinancieros || 0), 0)
+
   const fmt = (n: number): string => `$${(n / 1_000_000).toFixed(1)}M`
   const analisis = [
     {
@@ -92,19 +119,69 @@ export default function AnalisisPage() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-3xl font-bold text-slate-50 mb-1">Análisis Detallado</h1>
-          <p className="text-slate-400">Desglose de gastos por proveedor</p>
+          <p className="text-slate-400">Desglose de ingresos, gastos y proveedores</p>
         </div>
         <div className="flex items-center gap-3">
-          <label className="text-sm text-slate-400">Período:</label>
+          <label className="text-sm text-slate-400">Año:</label>
+          <select
+            value={selectedYear}
+            onChange={(e) => {
+              setSelectedYear(e.target.value)
+              const primesMesDelAño = meses.find(m => m.startsWith(e.target.value))
+              if (primesMesDelAño) setSelectedMonth(primesMesDelAño)
+            }}
+            className="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-50 cursor-pointer hover:border-slate-600"
+          >
+            {años.map(año => (
+              <option key={año} value={año}>{año}</option>
+            ))}
+          </select>
+
+          <label className="text-sm text-slate-400">Mes:</label>
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
             className="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-slate-50 cursor-pointer hover:border-slate-600"
           >
-            {meses.map(mes => (
+            {mesesDelAño.map(mes => (
               <option key={mes} value={mes}>{mes}</option>
             ))}
           </select>
+        </div>
+      </div>
+
+      {/* Resumen Dinámico por Período */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="card-premium p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-slate-50">💼 Ingresos</h3>
+            <span className="text-2xl font-bold text-green-400">{fmt(currentFinanciero?.ingresos || 0)}</span>
+          </div>
+          <p className="text-xs text-slate-400">Mes actual | AÑO: {fmt(totalIngresosPorAño)}</p>
+        </div>
+
+        <div className="card-premium p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-slate-50">🚨 Cuentas por Cobrar</h3>
+            <span className="text-2xl font-bold text-red-400">{fmt(currentFinanciero?.cuentasPorCobrar || 0)}</span>
+          </div>
+          <p className="text-xs text-slate-400">Mes actual | AÑO: {fmt(totalCPCPorAño)}</p>
+        </div>
+
+        <div className="card-premium p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-slate-50">💳 Gastos Financieros</h3>
+            <span className="text-2xl font-bold text-pink-400">{fmt(currentFinanciero?.gastosFinancieros || 0)}</span>
+          </div>
+          <p className="text-xs text-slate-400">Mes actual | AÑO: {fmt(totalGastosFinancierosPorAño)}</p>
+        </div>
+
+        <div className="card-premium p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-bold text-slate-50">✓ Capacidad de Pago</h3>
+            <span className="text-2xl font-bold text-green-400">{fmt((currentFinanciero?.ingresos || 0) - (currentFinanciero?.gastosFinancieros || 0))}</span>
+          </div>
+          <p className="text-xs text-slate-400">Ingresos netos del mes</p>
         </div>
       </div>
 
@@ -141,6 +218,41 @@ export default function AnalisisPage() {
           <p className="text-xs text-slate-400">Flujo anual positivo para pagar deudas</p>
         </div>
       </div>
+
+      {/* GASTOS MENSUALES DESGLOSADOS */}
+      {currentFinanciero ? (
+        <div className="card-premium overflow-hidden">
+          <div className="p-6 border-b border-slate-800">
+            <h2 className="text-lg font-bold text-slate-50">GASTOS MENSUALES DESGLOSADOS - {selectedMonth}</h2>
+            <p className="text-xs text-slate-400 mt-1">Desglose de gastos por categoría</p>
+          </div>
+
+          <div className="p-6 space-y-4">
+            {Object.entries(currentFinanciero.gastos || {}).map(([categoria, monto], idx) => {
+              const totalGastos = Object.values(currentFinanciero.gastos || {}).reduce((a, b) => a + b, 0)
+              const porcentaje = (monto / totalGastos) * 100
+              const colors = ['from-blue-600 to-blue-500', 'from-cyan-600 to-cyan-500', 'from-sky-600 to-sky-500', 'from-indigo-600 to-indigo-500', 'from-purple-600 to-purple-500']
+
+              return (
+                <div key={idx}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-semibold text-slate-200">{categoria}</span>
+                    <span className="text-sm font-bold text-slate-300">{fmt(monto)} ({porcentaje.toFixed(1)}%)</span>
+                  </div>
+                  <div className="h-6 bg-slate-800 rounded-lg overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r ${colors[idx % colors.length]} flex items-center justify-end pr-2 transition-all`}
+                      style={{ width: `${porcentaje * 2}%` }}
+                    >
+                      {porcentaje > 5 && <span className="text-xs font-bold text-white">{porcentaje.toFixed(0)}%</span>}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      ) : null}
 
       {/* RANKING DE PROVEEDORES DINÁMICO */}
       {currentData ? (
